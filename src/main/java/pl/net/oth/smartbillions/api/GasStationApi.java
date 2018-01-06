@@ -19,7 +19,7 @@ import pl.net.oth.smartbillions.model.EthGasStation;
 public class GasStationApi {
 	
 	private EthGasStation ethGasStation;
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 60000)
 	private void getApiInfo() {
 		System.out.println("Pobieranie danych z ethGasStation");
 		RestTemplate restTemplate = new RestTemplate();		

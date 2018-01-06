@@ -8,7 +8,7 @@ import pl.net.oth.smartbillions.model.EthereumInfo;
 @Component
 public class EthPriceApi {
 	private EthereumInfo[] ethereumInfo;
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 60000)
 	private void getApiInfo() {
 		System.out.println("Pobieranie danych z coinmarketcap");
 		RestTemplate restTemplate = new RestTemplate();
