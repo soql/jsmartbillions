@@ -7,6 +7,7 @@ import org.web3j.utils.Convert.Unit;
 
 import pl.net.oth.smartbillions.api.EthPriceApi;
 import pl.net.oth.smartbillions.api.GasStationApi;
+import pl.net.oth.smartbillions.api.EthTransactionApi;
 
 @Component
 public class Utils {
@@ -19,7 +20,7 @@ public class Utils {
 	public Double getTrxPrice() {
 		return Convert.fromWei(
 				Convert.toWei(
-						String.valueOf(gasStationApi.getGasPrice()*App.GAS_LIMIT), Unit.GWEI
+						String.valueOf(gasStationApi.getGasPrice()*EthTransactionApi.GAS_LIMIT), Unit.GWEI
 				), Unit.ETHER).doubleValue();
 		
 	}
