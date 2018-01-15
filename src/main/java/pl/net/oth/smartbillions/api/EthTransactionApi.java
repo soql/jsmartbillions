@@ -59,7 +59,7 @@ public class EthTransactionApi {
 			if (personalUnlockAccount.accountUnlocked()) {
 				LOG.info("Konto " + MY_ETH_ADDRESS + " odblokowane poprawnie.");
 			} else {
-				LOG.error("Konto " + MY_ETH_ADDRESS + " odblokowane poprawnie.");
+				LOG.error("Konto " + MY_ETH_ADDRESS + " nie odblokowane.");
 				ethTransactionResult.setErrorCode(2);
 				return ethTransactionResult;
 			}
