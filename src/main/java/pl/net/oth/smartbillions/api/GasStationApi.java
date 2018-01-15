@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,15 +15,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import pl.net.oth.smartbillions.Timer;
 import pl.net.oth.smartbillions.model.EthGasStation;
 
 @Component
 public class GasStationApi {
-	
+	private static final Logger log = LoggerFactory.getLogger(Timer.class);
 	private EthGasStation ethGasStation;
 	@Scheduled(fixedRate = 60000)
 	private void getApiInfo() {
-		System.out.println("Pobieranie danych z ethGasStation");
+		log.info("Pobieranie danych z ethGasStation");
 		RestTemplate restTemplate = new RestTemplate();		
 		HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

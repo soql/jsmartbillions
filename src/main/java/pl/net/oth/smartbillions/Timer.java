@@ -1,7 +1,9 @@
 package pl.net.oth.smartbillions;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.metamodel.relational.Database;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import pl.net.oth.smartbillions.api.SMSApi;
 import pl.net.oth.smartbillions.api.EthTransactionApi;
 import pl.net.oth.smartbillions.model.EthGasStation;
 import pl.net.oth.smartbillions.model.EthTransactionResult;
+import pl.net.oth.smartbillions.model.hibernate.OutTrx;
 
 @Component
 public class Timer {
@@ -45,10 +48,37 @@ public class Timer {
 		if (ethGasStation == null || ethPriceApi == null) {
 			return;
 		}
-		
-		ethTransactionApi.checkTransaction("0x6074a9cc81ab761c67775b70f495b2d75acc3efb970e143ce56b67b10695d4b9");
-		if(1==1)
+			
+		List<OutTrx> noMinedTransactions=databaseAPI.getNoMinedTrx();		
+		if(noMinedTransactions!=null && noMinedTransactions.size()>0) {
+			OutTrx outTrx=noMinedTransactions.get(0);
+			log.info("Istnieją niewykopane transakcje "+outTrx.getTrxId());
+			BigInteger result=ethTransactionApi.checkTransaction(outTrx.getTrxId());
+			if(result==null) {
+				log.info("Transakcja "+outTrx.getTrxId()+" wciąż nie wykopana lub błędna.");
+				return;			
+			}else {
+				log.info("Transakcja "+outTrx.getTrxId()+" wykopana w bloku: "+result+".");				
+				outTrx.setMiningDate(new Date());
+				outTrx.setMinedBlock(result);
+				databaseAPI.updateTrx(outTrx);				
+			}			
+		}	
+		List<OutTrx> noResultTransactions=databaseAPI.getTrxWithoutResults();
+		if(noResultTransactions!=null && noResultTransactions.size()>0) {
+			OutTrx outTrx=noResultTransactions.get(0);
+			log.info("Istnieją transakcje bez wyników: "+outTrx.getTrxId());
+			String blockHash=ethTransactionApi.getLotteryResultsBlockHash(outTrx.getMinedBlock());
+			if(blockHash==null) {
+				log.info("Brak hasha bloku - trzeba czekać.");
+			}else {
+				log.info("Znaleziono wyniki losowania: "+blockHash);				
+				outTrx.setLotteryResults(blockHash.substring(blockHash.length()-6));
+				databaseAPI.updateTrx(outTrx);		
+			}
 			return;
+		}
+		
 		log.info("GasPrice: " + gasStationApi.getGasPrice() + ". Wait: " + ethGasStation.getSafeLowWait() + ". ETH: "
 				+ String.format("%10.2f", ethPriceApi.getEthereumPrice()) + "$ ." + "TRX Price: "
 				+ String.format("%10.2f", utils.getTrxPriceInUSD()) + "$ ");
@@ -56,14 +86,15 @@ public class Timer {
 		log.info(String.valueOf(ethPriceApi.getEthereumPrice()));
 		log.info(utils.getTrxPrice() + " " + utils.getTrxPriceInUSD());
 		
-		if(gasStationApi.getGasPrice()<=20) {
-			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice()/2);
+		if(gasStationApi.getGasPrice()<=5) {
+			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
 			if(result.getErrorCode()!=0) {
 				handleError(result);
 				return;
 			}
 			log.info("Złożono transakcję "+result.getTrxHash());
 			databaseAPI.saveEthTrx(result.getTrxHash());
+			return;
 		}else {
 			log.info("GasPrice za wysoki - nie gramy.");
 		}

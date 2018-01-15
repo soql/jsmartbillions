@@ -1,5 +1,6 @@
 package pl.net.oth.smartbillions.model.hibernate;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,6 +18,13 @@ private String trxId;
 	private Date creationDate;
 	@Column
 	private Date miningDate;
+	@Column
+	private BigInteger minedBlock;
+	@Column 
+	private String myNumbers;
+	@Column 
+	private String lotteryResults;
+	
 	public String getTrxId() {
 		return trxId;
 	}
@@ -35,5 +43,26 @@ private String trxId;
 	public void setMiningDate(Date miningDate) {
 		this.miningDate = miningDate;
 	}
+	public String getLotteryResults() {
+		return lotteryResults;
+	}
+	public void setLotteryResults(String lotteryResults) {
+		this.lotteryResults = lotteryResults;
+	}
+	public BigInteger getMinedBlock() {
+		return minedBlock;
+	}
+	public void setMinedBlock(BigInteger minedBlock) {
+		this.minedBlock = minedBlock;
+	}
+	public String getMyNumbers() {
+		return myNumbers;
+	}
+	public void setMyNumbers(String myNumbers) {
+		this.myNumbers = myNumbers;
+	}
+	
+	
+	
 	
 }

@@ -9,7 +9,7 @@
 		<property name="hibernate.connection.url">jdbc:mysql://zjc.oth.net.pl:3306/smartbillions</property>
 		<property name="hibernate.connection.username">smartbillions</property>
 		<property name="hibernate.connection.password">so11fe</property>
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
 		<property name="hibernate.current_session_context_class">thread</property>
 		
