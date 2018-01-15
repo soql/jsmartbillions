@@ -82,9 +82,7 @@ public class Timer {
 		log.info("GasPrice: " + gasStationApi.getGasPrice() + ". Wait: " + ethGasStation.getSafeLowWait() + ". ETH: "
 				+ String.format("%10.2f", ethPriceApi.getEthereumPrice()) + "$ ." + "TRX Price: "
 				+ String.format("%10.2f", utils.getTrxPriceInUSD()) + "$ ");
-		log.info(String.valueOf(gasStationApi.getGasPrice()));
-		log.info(String.valueOf(ethPriceApi.getEthereumPrice()));
-		log.info(utils.getTrxPrice() + " " + utils.getTrxPriceInUSD());
+		log.info("Cena za transakcję "+utils.getTrxPrice() + "ETH " + utils.getTrxPriceInUSD()+"$");
 		
 		if(gasStationApi.getGasPrice()<=3) {
 			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
