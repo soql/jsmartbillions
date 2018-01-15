@@ -86,7 +86,7 @@ public class Timer {
 		log.info(String.valueOf(ethPriceApi.getEthereumPrice()));
 		log.info(utils.getTrxPrice() + " " + utils.getTrxPriceInUSD());
 		
-		if(gasStationApi.getGasPrice()<=5) {
+		if(gasStationApi.getGasPrice()<=3) {
 			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
 			if(result.getErrorCode()!=0) {
 				handleError(result);
