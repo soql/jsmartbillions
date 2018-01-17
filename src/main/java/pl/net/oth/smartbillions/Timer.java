@@ -91,7 +91,7 @@ public class Timer {
 			return;
 		}
 		
-		if(gasStationApi.getGasPrice()<=3) {
+		if(gasStationApi.getGasPrice()<=gasPriceLimit) {
 			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
 			if(result.getErrorCode()!=0) {
 				handleError(result);
