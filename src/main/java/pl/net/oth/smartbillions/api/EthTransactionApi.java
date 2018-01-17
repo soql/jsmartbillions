@@ -56,14 +56,15 @@ public class EthTransactionApi {
 	
 	public EthTransactionApi() {
 		LOG.debug("Uruchomiono konstruktor");
+		
+	}
+	
+	public EthTransactionResult send(Integer gasPrice) {
 		try {
 			GAS_LIMIT=Integer.parseInt(databaseAPI.getConfigurationValue("GAS_LIMIT"));
 		}catch (Exception e) {
 			
 		}
-	}
-	
-	public EthTransactionResult send(Integer gasPrice) {
 		EthTransactionResult ethTransactionResult = new EthTransactionResult();
 		Integer ADD_NONCE=Integer.parseInt(databaseAPI.getConfigurationValue("ADD_NONCE"));
 		ethTransactionResult.setErrorCode(0);
