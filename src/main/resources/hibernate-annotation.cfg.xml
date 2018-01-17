@@ -6,14 +6,15 @@
 	<session-factory>
 		<!-- Database connection properties - Driver, URL, user, password -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://zjc.oth.net.pl:3306/smartbillions</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smartbillions</property>
 		<property name="hibernate.connection.username">smartbillions</property>
 		<property name="hibernate.connection.password">so11fe</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
 		<!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
 		<property name="hibernate.current_session_context_class">thread</property>
 		
 		<!-- Mapping with model class containing annotations -->
 		<mapping class="pl.net.oth.smartbillions.model.hibernate.OutTrx"/>
+		<mapping class="pl.net.oth.smartbillions.model.hibernate.Configuration"/>
 	</session-factory>
 </hibernate-configuration>

@@ -17,6 +17,9 @@ public class Utils {
 	@Autowired
 	private EthPriceApi ethPriceApi;
 	
+	@Autowired
+	private EthTransactionApi ethTransactionApi;
+	
 	public Double getTrxPrice() {
 		return Convert.fromWei(
 				Convert.toWei(

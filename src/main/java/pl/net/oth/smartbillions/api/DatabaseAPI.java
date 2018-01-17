@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import pl.net.oth.smartbillions.HibernateUtil;
+import pl.net.oth.smartbillions.model.hibernate.Configuration;
 import pl.net.oth.smartbillions.model.hibernate.OutTrx;
 
 @Component
@@ -48,5 +49,17 @@ public class DatabaseAPI {
 		List<OutTrx> result=query.list();
 		session.getTransaction().commit();
 		return result;
+	}
+	public String getConfigurationValue(String key) {
+		Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query=session.createQuery("from Configuration where key=:k");
+		query.setParameter("k",key );
+		List<Configuration> result=query.list();
+		if(result==null || result.size()==0) {
+			LOG.error("Brak wpisu z konfiguracją dla klucza "+key);
+			return null;
+		}
+		return result.get(0).getValue();
 	}
 }

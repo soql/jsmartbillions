@@ -83,6 +83,13 @@ public class Timer {
 				+ String.format("%10.2f", ethPriceApi.getEthereumPrice()) + "$ ." + "TRX Price: "
 				+ String.format("%10.2f", utils.getTrxPriceInUSD()) + "$ ");
 		log.info("Cena za transakcję "+utils.getTrxPrice() + "ETH " + utils.getTrxPriceInUSD()+"$");
+		Integer gasPriceLimit=null;
+		try {
+			gasPriceLimit=Integer.parseInt(databaseAPI.getConfigurationValue("MAX_GAS_PRICE"));
+		} catch (NumberFormatException e) {
+			log.error("Nieprawidłowa maxymalna wartość GasPrice");
+			return;
+		}
 		
 		if(gasStationApi.getGasPrice()<=3) {
 			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
