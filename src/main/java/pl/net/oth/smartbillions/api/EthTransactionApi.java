@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
@@ -43,12 +44,24 @@ public class EthTransactionApi {
 	
 	private static final String ETH_TRX_DATA = "0x266995760000000000000000000000000000000000000000000000000000000000"+MY_LUCKY_NUMBERS+"000000000000000000000000dfffe934c59da76f4f4245937704c015bc364866";
 
-	public static final Integer GAS_LIMIT = 200000;
+	public static Integer GAS_LIMIT = 200000;
 
 	private static final Integer CONNECT_ERROR = 1;
 
+	@Autowired
+	private DatabaseAPI databaseAPI;
+	
 	private static Web3j web3 = Web3j.build(new HttpService(GETH_ADDRESS));
 	private static Admin web3jadmin = Admin.build(new HttpService(GETH_ADDRESS));
+	
+	public EthTransactionApi() {
+		LOG.debug("Uruchomiono konstruktor");
+		try {
+			GAS_LIMIT=Integer.parseInt(databaseAPI.getConfigurationValue("GAS_LIMIT"));
+		}catch (Exception e) {
+			
+		}
+	}
 	
 	public EthTransactionResult send(Integer gasPrice) {
 		EthTransactionResult ethTransactionResult = new EthTransactionResult();
