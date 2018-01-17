@@ -56,6 +56,7 @@ public class DatabaseAPI {
 		Query query=session.createQuery("from Configuration where key=:k");
 		query.setParameter("k",key );
 		List<Configuration> result=query.list();
+		session.getTransaction().commit();
 		if(result==null || result.size()==0) {
 			LOG.error("Brak wpisu z konfiguracją dla klucza "+key);
 			return null;
