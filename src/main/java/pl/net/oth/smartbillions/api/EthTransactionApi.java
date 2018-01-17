@@ -65,6 +65,7 @@ public class EthTransactionApi {
 	
 	public EthTransactionResult send(Integer gasPrice) {
 		EthTransactionResult ethTransactionResult = new EthTransactionResult();
+		Integer ADD_NONCE=Integer.parseInt(databaseAPI.getConfigurationValue("ADD_NONCE"));
 		ethTransactionResult.setErrorCode(0);
 		try {			
 			PersonalUnlockAccount personalUnlockAccount = web3jadmin.personalUnlockAccount(MY_ETH_ADDRESS, "so11fest")
@@ -75,11 +76,11 @@ public class EthTransactionApi {
 				LOG.error("Konto " + MY_ETH_ADDRESS + " nie odblokowane.");
 				ethTransactionResult.setErrorCode(2);
 				return ethTransactionResult;
-			}
+			}			
 			EthGetTransactionCount ethGetTransactionCount = web3
 					.ethGetTransactionCount(MY_ETH_ADDRESS, DefaultBlockParameterName.LATEST).send();
 
-			BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+			BigInteger nonce = ethGetTransactionCount.getTransactionCount().add(new BigInteger(ADD_NONCE.toString()));
 			LOG.info("Nonce: " + nonce);
 			Transaction transaction = Transaction.createFunctionCallTransaction(MY_ETH_ADDRESS, nonce,
 					BigInteger.valueOf(gasPrice * 1000000000L), BigInteger.valueOf(GAS_LIMIT), SMART_BILLION_ADDRESS,
