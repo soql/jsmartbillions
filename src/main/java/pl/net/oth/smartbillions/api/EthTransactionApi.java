@@ -85,7 +85,7 @@ public class EthTransactionApi {
 	public EthTransactionResult send(Double gasPrice) {
 		try {
 			GAS_LIMIT = Integer.parseInt(databaseAPI.getConfigurationValue("GAS_LIMIT"));
-			BET_VALUE = (databaseAPI.getConfigurationValue("BET_VALUE");
+			BET_VALUE = databaseAPI.getConfigurationValue("BET_VALUE");
 		} catch (Exception e) {
 
 		}
