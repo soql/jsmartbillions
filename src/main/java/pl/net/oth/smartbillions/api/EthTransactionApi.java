@@ -49,7 +49,7 @@ public class EthTransactionApi {
 
 	private static final Integer CONNECT_ERROR = 1;
 	
-	private static final String BET_VALUE="0.0002";
+	private static String BET_VALUE="0.0002";
 
 	@Autowired
 	private DatabaseAPI databaseAPI;
