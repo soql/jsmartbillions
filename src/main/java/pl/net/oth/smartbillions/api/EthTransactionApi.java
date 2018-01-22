@@ -80,7 +80,7 @@ public class EthTransactionApi {
 		return nonce;
 	}
 
-	public EthTransactionResult send(Integer gasPrice) {
+	public EthTransactionResult send(Double gasPrice) {
 		try {
 			GAS_LIMIT = Integer.parseInt(databaseAPI.getConfigurationValue("GAS_LIMIT"));
 		} catch (Exception e) {
@@ -97,7 +97,7 @@ public class EthTransactionApi {
 			LOG.info("Nadano numer nonce: " + nonce);
 			
 			Transaction transaction = Transaction.createFunctionCallTransaction(MY_ETH_ADDRESS, nonce,
-					BigInteger.valueOf(gasPrice * 1000000000L), BigInteger.valueOf(GAS_LIMIT), SMART_BILLION_ADDRESS,
+					BigInteger.valueOf((long)(gasPrice * 1000000000L)), BigInteger.valueOf(GAS_LIMIT), SMART_BILLION_ADDRESS,
 					Convert.toWei("0.0002", Unit.ETHER).toBigInteger(), ETH_TRX_DATA);
 			EthSendTransaction transactionResponse = web3.ethSendTransaction(transaction).send();
 			

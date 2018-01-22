@@ -97,7 +97,7 @@ public class Timer {
 		
 		if(gasStationApi.getGasPrice()<=gasPriceLimit) {
 			Double gasMulipier=getGasMultier();
-			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
+			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice()*gasMulipier);
 			if(result.getErrorCode()!=0) {
 				handleError(result);
 				return;
