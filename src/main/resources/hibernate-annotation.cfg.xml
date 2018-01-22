@@ -6,7 +6,7 @@
 	<session-factory>
 		<!-- Database connection properties - Driver, URL, user, password -->
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://192.168.1.168:3306/smartbillions</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smartbillions</property>
 		<property name="hibernate.connection.username">smartbillions</property>
 		<property name="hibernate.connection.password">so11fe</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>

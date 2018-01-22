@@ -73,8 +73,12 @@ public class Timer {
 				log.info("Brak hasha bloku - trzeba czekać.");
 			}else {
 				log.info("Znaleziono wyniki losowania: "+blockHash);				
-				outTrx.setLotteryResults(blockHash.substring(blockHash.length()-6));
+				outTrx.setLotteryResults(blockHash.substring(blockHash.length()-6));				
 				databaseAPI.updateTrx(outTrx);		
+				int myNumbers=Utils.checkResults(outTrx);
+				if(myNumbers>=2) {
+					smsApi.sendSMS("[SmartBillions] trafione: "+myNumbers);
+				}
 			}
 			return;
 		}
@@ -92,6 +96,7 @@ public class Timer {
 		}
 		
 		if(gasStationApi.getGasPrice()<=gasPriceLimit) {
+			Double gasMulipier=getGasMultier();
 			EthTransactionResult result=ethTransactionApi.send(gasStationApi.getGasPrice());
 			if(result.getErrorCode()!=0) {
 				handleError(result);
@@ -105,6 +110,12 @@ public class Timer {
 		}
 	}
 
+	private Double getGasMultier() {
+		String value=databaseAPI.getConfigurationValue("GAS_PRICE_MULTIPIER");
+		Double v=Double.parseDouble(value);
+		return v;
+	}
+
 	private void handleError(EthTransactionResult result) {
 		switch (result.getErrorCode()) {
 		case 1:
@@ -112,6 +123,7 @@ public class Timer {
 			break;
 
 		default:
+			log.error("Błąd nr "+result.getErrorCode()+": "+result.getErrorMessage());
 			break;
 		}
 		

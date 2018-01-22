@@ -7,6 +7,7 @@ import org.web3j.utils.Convert.Unit;
 
 import pl.net.oth.smartbillions.api.EthPriceApi;
 import pl.net.oth.smartbillions.api.GasStationApi;
+import pl.net.oth.smartbillions.model.hibernate.OutTrx;
 import pl.net.oth.smartbillions.api.EthTransactionApi;
 
 @Component
@@ -29,5 +30,13 @@ public class Utils {
 	}
 	public Double getTrxPriceInUSD() {
 		return getTrxPrice()*ethPriceApi.getEthereumPrice();
+	}
+	public static int checkResults(OutTrx outTrx) {
+		int match=0;
+		for(int i=0; i<outTrx.getLotteryResults().length(); i++) {
+			if(outTrx.getLotteryResults().charAt(i)==outTrx.getMyNumbers().charAt(i))
+				match++;
+		}
+		return match;
 	}
 }
