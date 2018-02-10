@@ -36,7 +36,7 @@ public class EthTransactionApi {
 
 	private static final String GETH_ADDRESS = "http://localhost:8545";
 
-	private static final String MY_ETH_ADDRESS = "0x3347b0a51c0a6e8094af1ddf97e20001c59a21ed";
+	private static final String MY_ETH_ADDRESS = "0x567608ed12ab74fc66de5cd028ecac80f97d0183";
 
 	private static final String SMART_BILLION_ADDRESS = "0x6f6deb5db0c4994a8283a01d6cfeeb27fc3bbe9c";
 
